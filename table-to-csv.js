@@ -109,9 +109,18 @@ jQuery.fn.table2CSV = function(options) {
 	
 	// This is the function that creates the Excel file. Make sure you link this up to the proper path of the included export.php file, otherwise it will not create the Excel file.
     function popup(data) {
-       $("body").append('<form id="exportform" action="export.php" method="post"><input type="hidden" id="exportdata" name="exportdata" /></form>');
-    $("#exportdata").val(data);
-    $("#exportform").submit().remove();
-    return true;
+	$('#downloadFile').remove();
+	
+	$('<a></a>')
+	.attr('id','downloadFile')
+	.attr('href','data:text/csv;charset=utf-8,%EF%BB%BF' + encodeURIComponent(data))
+	.attr('download','filename.csv')
+	.appendTo('body');
+
+	$('#downloadFile').ready(function() {
+		$('#downloadFile').get(0).click();
+	});
+	
+	return true;
     }
 };
